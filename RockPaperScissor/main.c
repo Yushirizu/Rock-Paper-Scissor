@@ -2,28 +2,30 @@
 #include <stdlib.h>
 #include <time.h>
 
+const char* get_result(int user_move, int computer_move) {
+    static const char* results[] = { "It's a tie!", "You win!", "Computer wins!" };
+    return results[(user_move - computer_move + 3) % 3];
+}
+
 int main(void) {
     int user_move;
     int computer_move;
-    const char* result;
+    char play_again;
 
     srand(time(NULL));
-    computer_move = rand() % 3;
 
-    printf("Enter your move (0 for rock, 1 for paper, 2 for scissors): ");
-    scanf("%d", &user_move);
+    do {
+        computer_move = rand() % 3;
 
-    printf("Computer's move: %d\n", computer_move);
+        printf("Enter your move (0 for rock, 1 for paper, 2 for scissors): ");
+        scanf("%d", &user_move);
 
-    if (user_move == computer_move) {
-        result = "It's a tie!";
-    } else if ((user_move - computer_move + 3) % 3 == 1) {
-        result = "You win!";
-    } else {
-        result = "Computer wins!";
-    }
+        printf("Computer's move: %d\n", computer_move);
+        printf("%s\n", get_result(user_move, computer_move));
 
-    printf("%s\n", result);
+        printf("Play again (y/n)? ");
+        scanf(" %c", &play_again);
+    } while (play_again == 'y');
 
     return 0;
 }
